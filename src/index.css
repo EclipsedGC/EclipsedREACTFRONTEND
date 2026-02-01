@@ -1,0 +1,928 @@
+@import "tailwindcss";
+
+/* Space-themed global styles */
+:root {
+  color-scheme: dark;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #000000;
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* Animated space background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse at top, #1a0a2e 0%, #000000 50%),
+    radial-gradient(ellipse at bottom, #0f0728 0%, #000000 50%);
+  z-index: -2;
+}
+
+/* Animated stars */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0)),
+    radial-gradient(2px 2px at 60px 70px, rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 50px 50px, rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0)),
+    radial-gradient(2px 2px at 90px 10px, rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0));
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  animation: stars 60s linear infinite;
+  z-index: -1;
+  opacity: 0.8;
+}
+
+@keyframes stars {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-200px);
+  }
+}
+
+/* Fade in animation */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+/* Slide down animation for floating toolbar */
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #8b5cf6, #3b82f6);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #a78bfa, #60a5fa);
+}
+
+/* Selection color */
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: #ffffff;
+}
+
+/* Glow effects */
+.glow-purple {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+}
+
+.glow-blue {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+/* Rich Text Editor Styles */
+.ProseMirror {
+  outline: none;
+  min-height: 400px;
+  color: white;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* Base paragraph styles */
+.ProseMirror > * {
+  margin: 0.5em 0;
+}
+
+.ProseMirror > *:first-child {
+  margin-top: 0;
+}
+
+.ProseMirror > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Gradient text support */
+.ProseMirror span[data-gradient] {
+  display: inline;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* Editor placeholder */
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #6b7280;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Link styling */
+.ProseMirror a {
+  color: #60a5fa;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.ProseMirror a:hover {
+  color: #93c5fd;
+}
+
+/* Image styling - with alignment and text wrapping */
+.ProseMirror img {
+  height: auto;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  vertical-align: top;
+  transition: none;
+}
+
+/* Images with custom width - ensure inline styles work */
+.ProseMirror img[width],
+.ProseMirror img[style*="width"] {
+  max-width: none !important;
+  height: auto !important;
+}
+
+/* Default center alignment */
+.ProseMirror img[data-align="center"]:not([width]),
+.ProseMirror img:not([data-align]):not([width]) {
+  display: block;
+  margin: 1.5rem auto;
+  max-width: 80%;
+  float: none;
+  clear: both;
+}
+
+/* Center alignment with custom width */
+.ProseMirror img[data-align="center"][width],
+.ProseMirror img:not([data-align])[width] {
+  display: block;
+  margin: 1.5rem auto;
+  float: none;
+  clear: both;
+}
+
+/* Left alignment - text wraps on the right */
+.ProseMirror img[data-align="left"]:not([width]) {
+  float: left;
+  display: inline;
+  margin: 0.5rem 1.5rem 1rem 0;
+  max-width: 45%;
+  clear: left;
+}
+
+.ProseMirror img[data-align="left"][width] {
+  float: left;
+  display: inline;
+  margin: 0.5rem 1.5rem 1rem 0;
+  clear: left;
+}
+
+/* Right alignment - text wraps on the left */
+.ProseMirror img[data-align="right"]:not([width]) {
+  float: right;
+  display: inline;
+  margin: 0.5rem 0 1rem 1.5rem;
+  max-width: 45%;
+  clear: right;
+}
+
+.ProseMirror img[data-align="right"][width] {
+  float: right;
+  display: inline;
+  margin: 0.5rem 0 1rem 1.5rem;
+  clear: right;
+}
+
+/* Inline alignment - allows images side by side */
+.ProseMirror img[data-align="inline"]:not([width]) {
+  display: inline-block;
+  margin: 0.5rem;
+  max-width: 30%;
+  min-width: 150px;
+  vertical-align: middle;
+  float: none;
+  clear: none;
+}
+
+.ProseMirror img[data-align="inline"][width] {
+  display: inline-block;
+  margin: 0.5rem;
+  vertical-align: middle;
+  float: none;
+  clear: none;
+}
+
+/* Paragraph containing inline images */
+.ProseMirror p:has(img[data-align="inline"]) {
+  text-align: center;
+  display: block;
+}
+
+/* Allow inline images to wrap to next line if needed */
+.ProseMirror img[data-align="inline"] + img[data-align="inline"] {
+  margin-left: 0.5rem;
+}
+
+/* Ensure paragraphs can contain floated images */
+.ProseMirror p {
+  min-height: 1.5em;
+  overflow: visible;
+  max-width: none;
+}
+
+/* Allow text to flow around images */
+.ProseMirror p:has(img[data-align="left"]),
+.ProseMirror p:has(img[data-align="right"]) {
+  display: flow-root;
+}
+
+/* Hover effects disabled to prevent interference with resize */
+
+/* Selected image styling - hide default outline since we use custom resize handles */
+.ProseMirror img.ProseMirror-selectednode {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Allow multiple paragraphs next to floated images */
+.ProseMirror p + p {
+  margin-top: 0.5rem;
+}
+
+/* Clear floats only after last element */
+.ProseMirror > *:last-child::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Improve line height for better text flow around images */
+.ProseMirror p,
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3 {
+  line-height: 1.75;
+}
+
+/* Blockquote styling */
+.ProseMirror blockquote {
+  border-left: 4px solid #8b5cf6;
+  padding-left: 1rem;
+  margin-left: 0;
+  font-style: italic;
+  color: #d1d5db;
+}
+
+/* Horizontal rule styling */
+.ProseMirror hr {
+  border: none;
+  border-top: 2px solid #4b5563;
+  margin: 2rem 0;
+}
+
+/* List styling */
+.ProseMirror ul,
+.ProseMirror ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.ProseMirror li {
+  margin: 0.25rem 0;
+}
+
+/* Heading styling - only if no inline styles present */
+.ProseMirror h1:not([style*="font-size"]) {
+  font-size: 2.25rem;
+}
+
+.ProseMirror h2:not([style*="font-size"]) {
+  font-size: 1.875rem;
+}
+
+.ProseMirror h3:not([style*="font-size"]) {
+  font-size: 1.5rem;
+}
+
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3 {
+  font-weight: bold;
+  margin: 1rem 0 0.5rem;
+  line-height: 1.3;
+}
+
+/* Paragraph spacing */
+.ProseMirror p {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+/* About Us Page Content Styles (matches editor exactly) */
+.about-us-content {
+  color: white;
+  line-height: 1.6;
+  font-size: 16px;
+  min-height: 200px;
+}
+
+/* Base spacing for About Us content */
+.about-us-content > * {
+  margin: 0.5em 0;
+}
+
+.about-us-content > *:first-child {
+  margin-top: 0;
+}
+
+.about-us-content > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Gradient text support on public page */
+.about-us-content span[data-gradient] {
+  display: inline;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* Heading styling - only if no inline styles */
+.about-us-content h1:not([style*="font-size"]) {
+  font-size: 2.25rem;
+}
+
+.about-us-content h2:not([style*="font-size"]) {
+  font-size: 1.875rem;
+}
+
+.about-us-content h3:not([style*="font-size"]) {
+  font-size: 1.5rem;
+}
+
+.about-us-content h1,
+.about-us-content h2,
+.about-us-content h3 {
+  font-weight: bold;
+  margin: 1rem 0 0.5rem;
+  line-height: 1.3;
+  color: inherit;
+}
+
+/* Paragraph spacing */
+.about-us-content p {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+  color: inherit;
+}
+
+/* Link styling */
+.about-us-content a {
+  color: #60a5fa;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.about-us-content a:hover {
+  color: #93c5fd;
+}
+
+/* Image styling - read-only on public page with alignment */
+.about-us-content img {
+  height: auto;
+  border-radius: 0.5rem;
+  cursor: default;
+  user-select: none;
+  max-width: 100%;
+  vertical-align: top;
+}
+
+/* Images with custom width - ensure no max-width constraint */
+.about-us-content img[width] {
+  max-width: none !important;
+  height: auto !important;
+}
+
+/* Default center alignment */
+.about-us-content img[data-align="center"]:not([width]),
+.about-us-content img:not([data-align]):not([width]) {
+  display: block;
+  margin: 1.5rem auto;
+  max-width: 80%;
+  float: none;
+  clear: both;
+}
+
+/* Center alignment with custom width */
+.about-us-content img[data-align="center"][width],
+.about-us-content img:not([data-align])[width] {
+  display: block;
+  margin: 1.5rem auto;
+  float: none;
+  clear: both;
+}
+
+/* Left alignment - text wraps on the right */
+.about-us-content img[data-align="left"]:not([width]) {
+  float: left;
+  display: inline;
+  margin: 0.5rem 1.5rem 1rem 0;
+  max-width: 45%;
+  clear: left;
+}
+
+.about-us-content img[data-align="left"][width] {
+  float: left;
+  display: inline;
+  margin: 0.5rem 1.5rem 1rem 0;
+  clear: left;
+}
+
+/* Right alignment - text wraps on the left */
+.about-us-content img[data-align="right"]:not([width]) {
+  float: right;
+  display: inline;
+  margin: 0.5rem 0 1rem 1.5rem;
+  max-width: 45%;
+  clear: right;
+}
+
+.about-us-content img[data-align="right"][width] {
+  float: right;
+  display: inline;
+  margin: 0.5rem 0 1rem 1.5rem;
+  clear: right;
+}
+
+/* Inline alignment - allows images side by side */
+.about-us-content img[data-align="inline"]:not([width]) {
+  display: inline-block;
+  margin: 0.5rem;
+  max-width: 30%;
+  min-width: 150px;
+  vertical-align: middle;
+  float: none;
+  clear: none;
+}
+
+.about-us-content img[data-align="inline"][width] {
+  display: inline-block;
+  margin: 0.5rem;
+  vertical-align: middle;
+  float: none;
+  clear: none;
+}
+
+/* Paragraph containing inline images */
+.about-us-content p:has(img[data-align="inline"]) {
+  text-align: center;
+  display: block;
+}
+
+/* Allow inline images to wrap to next line if needed */
+.about-us-content img[data-align="inline"] + img[data-align="inline"] {
+  margin-left: 0.5rem;
+}
+
+/* Ensure paragraphs can contain floated images */
+.about-us-content p {
+  min-height: 1.5em;
+  overflow: visible;
+}
+
+/* Allow text to flow around images */
+.about-us-content p:has(img[data-align="left"]),
+.about-us-content p:has(img[data-align="right"]) {
+  display: flow-root;
+}
+
+/* Allow multiple paragraphs next to floated images */
+.about-us-content p + p {
+  margin-top: 0.5rem;
+}
+
+/* Clear floats only after last element */
+.about-us-content > *:last-child::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Improve line height for better text flow around images */
+.about-us-content p,
+.about-us-content h1,
+.about-us-content h2,
+.about-us-content h3 {
+  line-height: 1.75;
+}
+
+/* Blockquote styling */
+.about-us-content blockquote {
+  border-left: 4px solid #8b5cf6;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: #d1d5db;
+}
+
+/* Horizontal rule styling */
+.about-us-content hr {
+  border: none;
+  border-top: 2px solid #4b5563;
+  margin: 2rem 0;
+}
+
+/* List styling */
+.about-us-content ul,
+.about-us-content ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+  color: inherit;
+}
+
+.about-us-content li {
+  margin: 0.25rem 0;
+  color: inherit;
+}
+
+.about-us-content ul > li {
+  list-style-type: disc;
+}
+
+.about-us-content ol > li {
+  list-style-type: decimal;
+}
+
+/* Text formatting */
+.about-us-content strong {
+  font-weight: bold;
+  color: inherit;
+}
+
+.about-us-content em {
+  font-style: italic;
+  color: inherit;
+}
+
+.about-us-content u {
+  text-decoration: underline;
+  color: inherit;
+}
+
+.about-us-content s {
+  text-decoration: line-through;
+  color: inherit;
+}
+
+/* Ensure inline styles always take precedence */
+.about-us-content [style*="text-align"] {
+  display: block;
+}
+
+.about-us-content [style*="font-size"],
+.about-us-content [style*="font-family"],
+.about-us-content [style*="color"],
+.about-us-content [style*="background"] {
+  all: revert;
+}
+
+/* ========================================= */
+/* Team Expectations Content (Modal Display) */
+/* Same styles as about-us-content for consistent formatting */
+/* ========================================= */
+
+.team-expectations-content h1,
+.team-expectations-content h2,
+.team-expectations-content h3 {
+  color: inherit;
+  font-weight: bold;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.team-expectations-content h1 {
+  font-size: 2rem;
+}
+
+.team-expectations-content h2 {
+  font-size: 1.5rem;
+}
+
+.team-expectations-content h3 {
+  font-size: 1.25rem;
+}
+
+.team-expectations-content p {
+  color: inherit;
+  margin: 0.75rem 0;
+  line-height: 1.75;
+}
+
+.team-expectations-content a {
+  color: #60a5fa;
+  text-decoration: underline;
+}
+
+.team-expectations-content a:hover {
+  color: #93c5fd;
+}
+
+/* Image styling - read-only in modal with alignment */
+.team-expectations-content img {
+  height: auto;
+  border-radius: 0.5rem;
+  cursor: default;
+  user-select: none;
+  max-width: 100%;
+  vertical-align: top;
+}
+
+/* Images with custom width - ensure no max-width constraint */
+.team-expectations-content img[width] {
+  max-width: none !important;
+  height: auto !important;
+}
+
+/* Default center alignment */
+.team-expectations-content img[data-align="center"]:not([width]),
+.team-expectations-content img:not([data-align]):not([width]) {
+  display: block;
+  margin: 1.5rem auto;
+  max-width: 80%;
+  float: none;
+  clear: both;
+}
+
+/* Center alignment with custom width */
+.team-expectations-content img[data-align="center"][width],
+.team-expectations-content img:not([data-align])[width] {
+  display: block;
+  margin: 1.5rem auto;
+  float: none;
+  clear: both;
+}
+
+/* Left alignment - text wraps on the right */
+.team-expectations-content img[data-align="left"]:not([width]) {
+  float: left;
+  display: inline;
+  margin: 0.5rem 1.5rem 1rem 0;
+  max-width: 45%;
+  clear: left;
+}
+
+.team-expectations-content img[data-align="left"][width] {
+  float: left;
+  display: inline;
+  margin: 0.5rem 1.5rem 1rem 0;
+  clear: left;
+}
+
+/* Right alignment - text wraps on the left */
+.team-expectations-content img[data-align="right"]:not([width]) {
+  float: right;
+  display: inline;
+  margin: 0.5rem 0 1rem 1.5rem;
+  max-width: 45%;
+  clear: right;
+}
+
+.team-expectations-content img[data-align="right"][width] {
+  float: right;
+  display: inline;
+  margin: 0.5rem 0 1rem 1.5rem;
+  clear: right;
+}
+
+/* Inline alignment - allows images side by side */
+.team-expectations-content img[data-align="inline"]:not([width]) {
+  display: inline-block;
+  margin: 0.5rem;
+  max-width: 30%;
+  min-width: 150px;
+  vertical-align: middle;
+  float: none;
+  clear: none;
+}
+
+.team-expectations-content img[data-align="inline"][width] {
+  display: inline-block;
+  margin: 0.5rem;
+  vertical-align: middle;
+  float: none;
+  clear: none;
+}
+
+/* Paragraph containing inline images */
+.team-expectations-content p:has(img[data-align="inline"]) {
+  text-align: center;
+  display: block;
+}
+
+/* Allow inline images to wrap to next line if needed */
+.team-expectations-content img[data-align="inline"] + img[data-align="inline"] {
+  margin-left: 0.5rem;
+}
+
+/* Ensure paragraphs can contain floated images */
+.team-expectations-content p {
+  min-height: 1.5em;
+  overflow: visible;
+}
+
+/* Allow text to flow around images */
+.team-expectations-content p:has(img[data-align="left"]),
+.team-expectations-content p:has(img[data-align="right"]) {
+  display: flow-root;
+}
+
+/* Allow multiple paragraphs next to floated images */
+.team-expectations-content p + p {
+  margin-top: 0.5rem;
+}
+
+/* Clear floats only after last element */
+.team-expectations-content > *:last-child::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Improve line height for better text flow around images */
+.team-expectations-content p,
+.team-expectations-content h1,
+.team-expectations-content h2,
+.team-expectations-content h3 {
+  line-height: 1.75;
+}
+
+/* Blockquote styling */
+.team-expectations-content blockquote {
+  border-left: 4px solid #8b5cf6;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: #d1d5db;
+}
+
+/* Horizontal rule styling */
+.team-expectations-content hr {
+  border: none;
+  border-top: 2px solid #4b5563;
+  margin: 2rem 0;
+}
+
+/* List styling */
+.team-expectations-content ul,
+.team-expectations-content ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+  color: inherit;
+}
+
+.team-expectations-content li {
+  margin: 0.25rem 0;
+  color: inherit;
+}
+
+.team-expectations-content ul > li {
+  list-style-type: disc;
+}
+
+.team-expectations-content ol > li {
+  list-style-type: decimal;
+}
+
+/* Text formatting */
+.team-expectations-content strong {
+  font-weight: bold;
+  color: inherit;
+}
+
+.team-expectations-content em {
+  font-style: italic;
+  color: inherit;
+}
+
+.team-expectations-content u {
+  text-decoration: underline;
+  color: inherit;
+}
+
+.team-expectations-content s {
+  text-decoration: line-through;
+  color: inherit;
+}
+
+/* Ensure inline styles always take precedence */
+.team-expectations-content [style*="text-align"] {
+  display: block;
+}
+
+.team-expectations-content [style*="font-size"],
+.team-expectations-content [style*="font-family"],
+.team-expectations-content [style*="color"],
+.team-expectations-content [style*="background"] {
+  all: revert;
+}
+
+/* Dropdown option styling for better readability */
+select option {
+  background-color: #1f2937;
+  color: #ffffff;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+select option:hover,
+select option:focus,
+select option:checked {
+  background-color: #374151;
+  color: #ffffff;
+}
+
+/* Improve select dropdown appearance */
+select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+/* Modal animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+.animate-fadeIn { 
+  animation: fadeIn 0.2s ease-out; 
+}
+
+.animate-slideUp { 
+  animation: slideUp 0.3s ease-out; 
+}
