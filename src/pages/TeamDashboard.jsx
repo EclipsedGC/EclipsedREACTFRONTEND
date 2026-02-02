@@ -5,7 +5,7 @@ import { teamAPI } from '../utils/api'
 import RichTextEditor from '../components/RichTextEditor'
 import TeamCustomizer from '../components/TeamCustomizer'
 import RoleRequirements from '../components/RoleRequirements'
-import ApplicantCard from '../components/ApplicantCard'
+import PlayerCard from '../components/PlayerCard'
 import { useApplications } from '../contexts/ApplicationContext'
 
 export default function TeamDashboard() {
@@ -696,16 +696,76 @@ export default function TeamDashboard() {
                     <p className="text-gray-500 text-sm">Applications submitted through the "Apply Here" page will appear here</p>
                   </div>
                 ) : (
-                  <div className="space-y-4">
-                    {getSubmissionsByTeam(teamId).map((submission) => (
-                      <ApplicantCard
-                        key={submission.id}
-                        submission={submission}
-                        formDefinition={formDefinition}
-                        canEdit={canEdit}
-                        onDelete={deleteSubmission}
-                      />
-                    ))}
+                  <div className="space-y-6">
+                    {getSubmissionsByTeam(teamId).map((submission) => {
+                      // Extract Warcraft Logs URL from submission identity
+                      const warcraftLogsUrl = submission.identity?.warcraftLogsUrl || null
+
+                      return (
+                        <div key={submission.id} className="relative">
+                          {/* Player Card */}
+                          <PlayerCard
+                            warcraftLogsUrl={warcraftLogsUrl}
+                            applicationId={submission.id}
+                          />
+
+                          {/* Delete Button (if canEdit) */}
+                          {canEdit && (
+                            <button
+                              onClick={() => {
+                                if (window.confirm('Delete this application?')) {
+                                  deleteSubmission(submission.id)
+                                }
+                              }}
+                              className="absolute top-4 right-4 p-2 bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 rounded-lg text-red-300 transition-all"
+                              title="Delete application"
+                            >
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                            </button>
+                          )}
+
+                          {/* Additional application details expandable section */}
+                          <details className="mt-2 bg-gray-900/50 border border-gray-700/30 rounded-lg overflow-hidden">
+                            <summary className="px-4 py-3 cursor-pointer hover:bg-gray-800/50 transition-colors text-gray-400 text-sm font-semibold flex items-center gap-2">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              View Additional Application Details
+                            </summary>
+                            <div className="px-4 py-4 border-t border-gray-700/30 space-y-3">
+                              {/* Custom Answers */}
+                              {submission.answers && Object.keys(submission.answers).length > 0 && (
+                                <div>
+                                  <h4 className="text-purple-300 font-semibold text-sm mb-2">Custom Answers:</h4>
+                                  <div className="space-y-2">
+                                    {Object.entries(submission.answers).map(([questionId, answer]) => {
+                                      const question = formDefinition.questions.find(q => q.id === questionId)
+                                      return (
+                                        <div key={questionId} className="text-sm">
+                                          <span className="text-gray-400">{question?.label || `Question ${questionId}`}:</span>
+                                          <span className="text-white ml-2">
+                                            {Array.isArray(answer) ? answer.join(', ') : answer}
+                                          </span>
+                                        </div>
+                                      )
+                                    })}
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Submission metadata */}
+                              <div className="pt-3 border-t border-gray-700/30 text-xs text-gray-500">
+                                <div>Application ID: {submission.id}</div>
+                                <div>Submitted: {new Date(submission.submittedAt).toLocaleString()}</div>
+                                {submission.formVersion && <div>Form Version: {submission.formVersion}</div>}
+                              </div>
+                            </div>
+                          </details>
+                        </div>
+                      )
+                    })}
                   </div>
                 )}
               </div>

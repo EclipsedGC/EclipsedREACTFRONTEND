@@ -14,6 +14,7 @@ import Applicants from './pages/Applicants'
 import AboutUs from './pages/AboutUs'
 import ApplyHere from './pages/ApplyHere'
 import CommandMapEditorPage from './pages/CommandMapEditorPage'
+import SeasonConfig from './pages/SeasonConfig'
 import ProtectedRoute from './components/ProtectedRoute'
 import { ApplicationProvider } from './contexts/ApplicationContext'
 
@@ -62,6 +63,13 @@ function App() {
           <Route path="/command-map-editor" element={
             <ProtectedRoute requiredRank="GUILD_MASTER">
               <CommandMapEditorPage />
+            </ProtectedRoute>
+          } />
+          
+          {/* Protected Season Config (Guild Master only) */}
+          <Route path="/season-config" element={
+            <ProtectedRoute requiredRank="GUILD_MASTER">
+              <SeasonConfig />
             </ProtectedRoute>
           } />
           

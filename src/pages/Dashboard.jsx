@@ -135,6 +135,12 @@ export default function Dashboard() {
       show: user?.rank === 'GUILD_MASTER', // Only Guildmaster
     },
     {
+      label: 'Season Config',
+      value: 'Configure Tier',
+      icon: '⚙️',
+      show: user?.rank === 'GUILD_MASTER', // Only Guildmaster
+    },
+    {
       label: 'Form Creator',
       value: 'Create Forms',
       icon: '📋',
@@ -313,6 +319,10 @@ export default function Dashboard() {
                   if (stat.label === 'Command Map Editor') {
                     navigate('/command-map-editor')
                   }
+                  // Navigate to season config when clicking Season Config
+                  if (stat.label === 'Season Config') {
+                    navigate('/season-config')
+                  }
                   // Navigate to form creator when clicking Form Creator
                   if (stat.label === 'Form Creator') {
                     navigate('/form-creator')
@@ -320,7 +330,7 @@ export default function Dashboard() {
                   // Guild Applicants is not clickable (coming soon)
                 }}
                 className={`bg-gradient-to-br from-purple-900/20 to-blue-900/20 backdrop-blur-sm border border-purple-500/30 rounded-xl p-6 transition-all duration-300 ${
-                  (stat.label === 'Direct Applicants' || stat.label === 'Team Applicants' || stat.label === 'My Team' || stat.label === 'Account Manager' || stat.label === 'Command Map Editor' || stat.label === 'Form Creator')
+                  (stat.label === 'Direct Applicants' || stat.label === 'Team Applicants' || stat.label === 'My Team' || stat.label === 'Account Manager' || stat.label === 'Command Map Editor' || stat.label === 'Season Config' || stat.label === 'Form Creator')
                     ? 'hover:border-purple-400/50 hover:scale-105 cursor-pointer' 
                     : stat.label === 'Guild Applicants'
                     ? 'opacity-60 cursor-not-allowed'
